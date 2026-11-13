@@ -6,6 +6,7 @@ export { Chip, type ChipProps, type ChipScale } from './chip/Chip';
 export { EmptyState, type EmptyStateProps } from './empty-state/EmptyState';
 export { GlassSurface, type GlassSurfaceProps } from './glass/GlassSurface';
 export { GradientFill, type GradientFillProps } from './gradient/GradientFill';
+export { Icon, type IconName, type IconProps } from './icon/Icon';
 export { Input, type InputProps } from './input/Input';
 export { Screen } from './screen/Screen';
 export { SegmentedControl, type SegmentedOption } from './segmented-control/SegmentedControl';

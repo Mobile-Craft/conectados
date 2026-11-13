@@ -41,12 +41,7 @@ export function EmptyState({
           {description}
         </Text>
       ) : null}
-      {actionLabel && onAction ? (
-        // El botón se ajusta a su texto; la envoltura lo deja centrado.
-        <View>
-          <Button label={actionLabel} onPress={onAction} />
-        </View>
-      ) : null}
+      {actionLabel && onAction ? <Button label={actionLabel} onPress={onAction} /> : null}
     </View>
   );
 }

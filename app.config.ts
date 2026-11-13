@@ -11,6 +11,11 @@ const isDev = variant === 'development';
 const baseId = 'com.mobilecraft.conectados';
 const appId = isDev ? `${baseId}.dev` : baseId;
 
+// Universal links (iOS) y App Links (Android) para https://<dominio>/pack/<slug> (HU-1.4). Solo se
+// activan con un dominio: sin él la app abre los enlaces conectados://, que no lo necesitan. El
+// dominio debe servir los archivos de asociación (apple-app-site-association y assetlinks.json).
+const linkDomain = process.env.APP_LINK_DOMAIN?.trim() || undefined;
+
 // Proyecto en EAS (cuenta tavarezdev). No es secreto: solo identifica el proyecto.
 const easProjectId = '24e03272-21b1-4517-8522-2a7a0d79e1f4';
 
@@ -25,6 +30,7 @@ const config: ExpoConfig = {
   ios: {
     bundleIdentifier: appId,
     icon: './assets/expo.icon',
+    ...(linkDomain && { associatedDomains: [`applinks:${linkDomain}`] }),
   },
   android: {
     package: appId,
@@ -35,6 +41,16 @@ const config: ExpoConfig = {
       monochromeImage: './assets/images/android-icon-monochrome.png',
     },
     predictiveBackGestureEnabled: false,
+    ...(linkDomain && {
+      intentFilters: [
+        {
+          action: 'VIEW',
+          autoVerify: true,
+          data: [{ scheme: 'https', host: linkDomain, pathPrefix: '/pack/' }],
+          category: ['BROWSABLE', 'DEFAULT'],
+        },
+      ],
+    }),
   },
   web: {
     output: 'server',
@@ -46,7 +62,7 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        // El fondo de la splash es el `bg` de cada tema (sand.50 y ink.950 de los primitivos):
+        // El fondo de la splash es el `bg` de cada tema (haze.50 y night.950 de los primitivos):
         // al quitarla no hay salto de color. La config no puede importar src/, así que una
         // prueba (app-config.test.ts) comprueba que coincidan.
         backgroundColor: '#F4F2FA',

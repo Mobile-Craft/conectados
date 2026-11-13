@@ -13,7 +13,10 @@ export interface ButtonProps extends Omit<PressableProps, 'children' | 'style'> 
   /** Muestra un indicador y bloquea el botón mientras dura una acción. */
   loading?: boolean;
   disabled?: boolean;
-  /** Ocupa todo el ancho disponible. */
+  /**
+   * Ocupa todo el ancho disponible. Sin él, el botón se alinea como diga su contenedor
+   * (`alignItems`): centrado en una pantalla centrada, a la izquierda en una fila.
+   */
   fullWidth?: boolean;
 }
 
@@ -85,7 +88,6 @@ const useStyles = createStyles((t) => {
       borderColor: 'transparent',
       alignItems: 'center',
       justifyContent: 'center',
-      alignSelf: 'flex-start',
     },
     md: { paddingHorizontal: t.space[5], paddingVertical: t.space[2] },
     lg: { minHeight: 52, paddingHorizontal: t.space[8], paddingVertical: t.space[3] },
