@@ -57,6 +57,7 @@ npm run sb -- link --project-ref bevmpvgtghwwtivdpmyk
 - **Reconstruir dev desde cero:** `npm run sb -- db reset --linked` (borra los datos de dev y aplica todas las migraciones). Pide la contraseña de la base; está en el llavero, como `supabase-db-conectados-dev`.
 - **Tipos:** `npm run db:types` regenera `src/shared/api/supabase/database.types.ts` desde el esquema. Ejecútalo tras cada migración.
 - **Claves:** la app usa la URL y la clave _publishable_ (`EXPO_PUBLIC_SUPABASE_*` en `.env` y en las variables de EAS). Las claves `secret` y `service_role` nunca van al cliente ni al repositorio.
+- **Sesión:** el cliente único es `supabase` de `@/shared/api`. La sesión se guarda en `expo-secure-store` (en trozos, porque pasa de 2048 bytes) y el refresco automático se enciende al volver la app al frente. `useAuth()` de `@/entities/session` da el estado: `loading` · `authenticated` · `guest` (sesión anónima) · `anonymous` (sin sesión). La splash nativa se mantiene mientras el estado es `loading`.
 
 ## Variantes
 
@@ -74,6 +75,7 @@ Los perfiles de `eas.json` ya fijan su variante.
 | Script                            | Qué hace                                         |
 | --------------------------------- | ------------------------------------------------ |
 | `npm start`                       | Servidor de desarrollo para el development build |
+| `npm test`                        | Pruebas unitarias (Jest con `jest-expo`)         |
 | `npm run typecheck`               | TypeScript en modo estricto                      |
 | `npm run lint`                    | ESLint (incluida la regla de capas) y Steiger    |
 | `npm run format` / `format:check` | Prettier                                         |

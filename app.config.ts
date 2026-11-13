@@ -51,6 +51,7 @@ const config: ExpoConfig = {
         imageWidth: 76,
       },
     ],
+    'expo-secure-store',
   ],
   owner: 'tavarezdev',
   extra: { eas: { projectId: easProjectId } },

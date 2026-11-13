@@ -20,6 +20,9 @@ module.exports = defineConfig([
         node: true,
       },
     },
+    // TypeScript ya comprueba los nombres de un `import * as`; la regla de import da falsos
+    // positivos con paquetes que reexportan con `export *` (expo-splash-screen).
+    rules: { 'import/namespace': 'off' },
   },
   {
     files: ['app/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
