@@ -10,6 +10,7 @@ const STEPS = [
   { name: 'Claves de i18n', cmd: 'npm run --silent check:i18n' },
   { name: 'Contraste AA', cmd: 'npm run --silent check:contrast' },
   { name: 'Pruebas (Jest)', cmd: 'npx jest' },
+  { name: 'Base de datos (pgTAP)', cmd: 'npm run --silent db:test' },
 ];
 
 // `npm run check -- i18n pruebas` corre solo los pasos cuyo nombre contenga esas palabras.

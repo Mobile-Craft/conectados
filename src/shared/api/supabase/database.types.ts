@@ -61,23 +61,59 @@ export type Database = {
           },
         ];
       };
+      pack_tags: {
+        Row: {
+          pack_id: string;
+          tag_id: string;
+        };
+        Insert: {
+          pack_id: string;
+          tag_id: string;
+        };
+        Update: {
+          pack_id?: string;
+          tag_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'pack_tags_pack_id_fkey';
+            columns: ['pack_id'];
+            isOneToOne: false;
+            referencedRelation: 'packs';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'pack_tags_tag_id_fkey';
+            columns: ['tag_id'];
+            isOneToOne: false;
+            referencedRelation: 'tags';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
       pack_translations: {
         Row: {
           description: string | null;
           locale: string;
           pack_id: string;
+          search_vector: unknown;
+          tag_names: string;
           title: string;
         };
         Insert: {
           description?: string | null;
           locale: string;
           pack_id: string;
+          search_vector?: unknown;
+          tag_names?: string;
           title: string;
         };
         Update: {
           description?: string | null;
           locale?: string;
           pack_id?: string;
+          search_vector?: unknown;
+          tag_names?: string;
           title?: string;
         };
         Relationships: [
@@ -99,6 +135,7 @@ export type Database = {
           id: string;
           intensity: number;
           min_age: number;
+          play_count: number;
           published_at: string | null;
           question_count: number;
           slug: string;
@@ -115,6 +152,7 @@ export type Database = {
           id?: string;
           intensity?: number;
           min_age?: number;
+          play_count?: number;
           published_at?: string | null;
           question_count?: number;
           slug: string;
@@ -131,6 +169,7 @@ export type Database = {
           id?: string;
           intensity?: number;
           min_age?: number;
+          play_count?: number;
           published_at?: string | null;
           question_count?: number;
           slug?: string;
@@ -233,12 +272,94 @@ export type Database = {
           },
         ];
       };
+      tag_translations: {
+        Row: {
+          locale: string;
+          name: string;
+          tag_id: string;
+        };
+        Insert: {
+          locale: string;
+          name: string;
+          tag_id: string;
+        };
+        Update: {
+          locale?: string;
+          name?: string;
+          tag_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'tag_translations_tag_id_fkey';
+            columns: ['tag_id'];
+            isOneToOne: false;
+            referencedRelation: 'tags';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      tags: {
+        Row: {
+          id: string;
+          slug: string;
+        };
+        Insert: {
+          id?: string;
+          slug: string;
+        };
+        Update: {
+          id?: string;
+          slug?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;
     };
     Functions: {
       age_band_of: { Args: { birth: string }; Returns: string };
+      catalog_ts_config: { Args: { lang: unknown }; Returns: unknown };
+      catalog_tsquery: {
+        Args: { lang: unknown; query: string };
+        Returns: unknown;
+      };
+      pack_tag_names: {
+        Args: { lang: unknown; target_pack: string };
+        Returns: string;
+      };
+      refresh_pack_tag_names: {
+        Args: { target_packs: string[] };
+        Returns: undefined;
+      };
+      requested_pack_slug: { Args: never; Returns: string };
+      search_packs: {
+        Args: { lang: unknown; max_results?: number; query: string };
+        Returns: {
+          author_id: string | null;
+          category_id: string | null;
+          cover_url: string | null;
+          created_at: string;
+          id: string;
+          intensity: number;
+          min_age: number;
+          play_count: number;
+          published_at: string | null;
+          question_count: number;
+          slug: string;
+          source: string;
+          status: string;
+          updated_at: string;
+          visibility: string;
+        }[];
+        SetofOptions: {
+          from: '*';
+          to: 'packs';
+          isOneToOne: false;
+          isSetofReturn: true;
+        };
+      };
+      viewer_age: { Args: never; Returns: number };
     };
     Enums: {
       [_ in never]: never;

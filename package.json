@@ -59,6 +59,7 @@
     "sb": "./scripts/supabase.sh",
     "db:types": "./scripts/supabase.sh gen types typescript --linked --schema public > src/shared/api/supabase/database.types.ts && prettier --write src/shared/api/supabase/database.types.ts",
     "test": "jest",
+    "db:test": "./scripts/db-test.sh",
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:i18n": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/check-i18n.mjs",
     "check": "node scripts/check.mjs"
