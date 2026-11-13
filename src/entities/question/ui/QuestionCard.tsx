@@ -1,6 +1,7 @@
 import { View } from 'react-native';
+import { useTranslation } from '@/shared/lib';
 import { Card, Chip, createStyles, Text } from '@/shared/ui';
-import { intensityText, type Intensity } from '../model/intensity';
+import { intensitySpoken, intensityText, type Intensity } from '../model/intensity';
 import { questionSize } from '../model/question-size';
 
 export interface QuestionCardProps {
@@ -19,7 +20,9 @@ export interface QuestionCardProps {
  */
 export function QuestionCard({ text, category, intensity, tags = [] }: QuestionCardProps) {
   const styles = useStyles();
-  const spoken = [category, text, intensity && `Intensidad: ${intensityText(intensity)}`, ...tags]
+  // Se vuelve a pintar al cambiar el idioma.
+  useTranslation();
+  const spoken = [category, text, intensity && intensitySpoken(intensity), ...tags]
     .filter(Boolean)
     .join('. ');
 

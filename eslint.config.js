@@ -38,6 +38,32 @@ const NO_COLOR_LITERALS = [
   },
 ];
 
+// Textos visibles (HU-2.1): ninguno se escribe a mano en un componente; van en los archivos de
+// idioma y se leen con t(). Se vigilan el texto entre etiquetas JSX, las props que muestran texto
+// y Alert.alert. El catálogo /dev/components es interno y queda fuera.
+const TEXT_PROPS =
+  '/^(label|title|description|actionLabel|accessibilityLabel|accessibilityHint|placeholder|message|helper|error|closeLabel|text|category)$/';
+const HAS_LETTERS = '/[A-Za-zÁÉÍÓÚÜÑáéíóúüñ¿¡]/';
+const NO_TEXT_LITERALS = [
+  {
+    selector: `JSXAttribute[name.name=${TEXT_PROPS}] > Literal[value=${HAS_LETTERS}]`,
+    message: 'Texto visible escrito a mano: ponlo en los archivos de idioma y usa t().',
+  },
+  {
+    selector: `JSXAttribute[name.name=${TEXT_PROPS}] > JSXExpressionContainer > Literal[value=${HAS_LETTERS}]`,
+    message: 'Texto visible escrito a mano: ponlo en los archivos de idioma y usa t().',
+  },
+  {
+    selector: `JSXText[value=${HAS_LETTERS}]`,
+    message: 'Texto visible escrito a mano: ponlo en los archivos de idioma y usa t().',
+  },
+  {
+    selector: `CallExpression[callee.object.name='Alert'][callee.property.name='alert'] > Literal[value=${HAS_LETTERS}]`,
+    message: 'Texto visible escrito a mano: ponlo en los archivos de idioma y usa t().',
+  },
+];
+const TEXT_EXEMPT = ['src/screens/dev-components/**'];
+
 module.exports = defineConfig([
   globalIgnores(['dist/*', '.expo/*', 'ios/*', 'android/*', 'node_modules/*']),
   expoConfig,
@@ -123,6 +149,13 @@ module.exports = defineConfig([
     // Las pruebas usan colores de referencia (WCAG); la regla es para el código de la app.
     ignores: [...COLOR_PRIMITIVES, '**/*.test.{ts,tsx}'],
     rules: { 'no-restricted-syntax': ['error', ...NO_COLOR_LITERALS] },
+  },
+  {
+    // Mismo código de la app, ahora también sin textos a mano. Esta regla sustituye a la de
+    // arriba en estos archivos, así que repite los colores.
+    files: ['app/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
+    ignores: [...COLOR_PRIMITIVES, ...TEXT_EXEMPT, '**/*.test.{ts,tsx}'],
+    rules: { 'no-restricted-syntax': ['error', ...NO_COLOR_LITERALS, ...NO_TEXT_LITERALS] },
   },
   prettierConfig,
 ]);

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/entities/session';
 import { AppTheme } from './AppTheme';
+import { I18nRoot } from './I18nRoot';
 import { SplashGate } from './SplashGate';
 import { ThemeRoot } from './ThemeRoot';
 
@@ -10,12 +11,14 @@ import { ThemeRoot } from './ThemeRoot';
  */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <AuthProvider>
-      <ThemeRoot>
-        <AppTheme>
-          <SplashGate>{children}</SplashGate>
-        </AppTheme>
-      </ThemeRoot>
-    </AuthProvider>
+    <I18nRoot>
+      <AuthProvider>
+        <ThemeRoot>
+          <AppTheme>
+            <SplashGate>{children}</SplashGate>
+          </AppTheme>
+        </ThemeRoot>
+      </AuthProvider>
+    </I18nRoot>
   );
 }

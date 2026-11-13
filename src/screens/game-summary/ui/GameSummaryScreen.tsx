@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useTranslation } from '@/shared/lib';
 import { Button, EmptyState, Screen } from '@/shared/ui';
 
 /**
@@ -7,10 +8,11 @@ import { Button, EmptyState, Screen } from '@/shared/ui';
  */
 export function GameSummaryScreen() {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <Screen>
-      <EmptyState title="Partida terminada" description="Aquí verás las preguntas jugadas." />
-      <Button label="Volver al inicio" size="lg" onPress={() => router.dismissTo('/')} />
+      <EmptyState title={t('game.summaryTitle')} description={t('game.summaryDescription')} />
+      <Button label={t('game.backHome')} size="lg" onPress={() => router.dismissTo('/')} />
     </Screen>
   );
 }

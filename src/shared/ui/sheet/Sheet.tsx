@@ -2,7 +2,7 @@ import { BlurView } from 'expo-blur';
 import type { ReactNode } from 'react';
 import { Modal, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useReducedMotion } from '@/shared/lib';
+import { useReducedMotion, useTranslation } from '@/shared/lib';
 import { Button } from '../button/Button';
 import { Text } from '../text/Text';
 import { createStyles, useTheme } from '../theme';
@@ -12,7 +12,7 @@ export interface SheetProps {
   onClose: () => void;
   title: string;
   children: ReactNode;
-  /** Texto del botón de cerrar. */
+  /** Texto del botón de cerrar. Por defecto, "Cerrar" en el idioma activo. */
   closeLabel?: string;
 }
 
@@ -21,8 +21,10 @@ export interface SheetProps {
  * con el botón atrás de Android. El lector de pantalla queda dentro de la hoja mientras está
  * abierta. En Android, sin desenfoque, la hoja es opaca.
  */
-export function Sheet({ visible, onClose, title, children, closeLabel = 'Cerrar' }: SheetProps) {
+export function Sheet({ visible, onClose, title, children, closeLabel }: SheetProps) {
   const styles = useStyles();
+  const { t } = useTranslation();
+  const close = closeLabel ?? t('common.close');
   const theme = useTheme();
   const insets = useSafeAreaInsets();
   const reducedMotion = useReducedMotion();
@@ -70,7 +72,7 @@ export function Sheet({ visible, onClose, title, children, closeLabel = 'Cerrar'
             <Text variant="title3" accessibilityRole="header" style={styles.title}>
               {title}
             </Text>
-            <Button label={closeLabel} variant="ghost" onPress={onClose} />
+            <Button label={close} variant="ghost" onPress={onClose} />
           </View>
           <ScrollView contentContainerStyle={styles.content}>{children}</ScrollView>
         </View>

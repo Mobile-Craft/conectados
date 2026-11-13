@@ -1,21 +1,17 @@
-import { SegmentedControl, type SegmentedOption, type ThemePreference } from '@/shared/ui';
+import { useTranslation } from '@/shared/lib';
+import { SegmentedControl, THEME_PREFERENCES } from '@/shared/ui';
 import { useThemePreferenceStore } from '../model/theme-preference-store';
-
-// Textos en español hasta que llegue i18n.
-const OPTIONS: readonly SegmentedOption<ThemePreference>[] = [
-  { value: 'light', label: 'Claro' },
-  { value: 'dark', label: 'Oscuro' },
-  { value: 'system', label: 'Automático' },
-];
 
 /** Elegir tema claro, oscuro o el del sistema. El cambio se aplica al instante. */
 export function ThemeSwitch() {
   const preference = useThemePreferenceStore((s) => s.preference);
   const setPreference = useThemePreferenceStore((s) => s.setPreference);
+  const { t } = useTranslation();
+  const options = THEME_PREFERENCES.map((value) => ({ value, label: t(`theme.${value}`) }));
   return (
     <SegmentedControl
-      accessibilityLabel="Tema"
-      options={OPTIONS}
+      accessibilityLabel={t('theme.label')}
+      options={options}
       value={preference}
       onChange={setPreference}
     />

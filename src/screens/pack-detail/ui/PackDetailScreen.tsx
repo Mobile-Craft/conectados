@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useTranslation } from '@/shared/lib';
 import { Button, Screen, Text } from '@/shared/ui';
 
 /**
@@ -7,16 +8,17 @@ import { Button, Screen, Text } from '@/shared/ui';
  */
 export function PackDetailScreen({ slug }: { slug: string }) {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <Screen>
       <Text variant="overline" tone="secondary">
-        Set
+        {t('pack.kicker')}
       </Text>
       <Text variant="title1" align="center" accessibilityRole="header">
         {slug}
       </Text>
       <Button
-        label="Jugar"
+        label={t('pack.play')}
         size="lg"
         onPress={() => router.push({ pathname: '/game', params: { pack: slug } })}
       />

@@ -1,4 +1,5 @@
 import { View } from 'react-native';
+import { i18n, useTranslation } from '@/shared/lib';
 import { Card, createStyles, GradientFill, Text, useTheme } from '@/shared/ui';
 
 export interface PackCardProps {
@@ -9,9 +10,9 @@ export interface PackCardProps {
   onPress?: () => void;
 }
 
-/** "24 preguntas", "1 pregunta". */
+/** "24 preguntas", "1 pregunta", con el plural y el número del idioma activo. */
 export function questionCountText(count: number): string {
-  return `${count} ${count === 1 ? 'pregunta' : 'preguntas'}`;
+  return i18n.t('pack.questions', { count });
 }
 
 /**
@@ -21,6 +22,7 @@ export function questionCountText(count: number): string {
 export function PackCard({ title, questionCount, intensityText, onPress }: PackCardProps) {
   const styles = useStyles();
   const { components, radius } = useTheme();
+  const { t } = useTranslation();
   const summary = [questionCountText(questionCount), intensityText].filter(Boolean).join(' · ');
 
   return (
@@ -29,7 +31,7 @@ export function PackCard({ title, questionCount, intensityText, onPress }: PackC
       padding={3}
       onPress={onPress}
       accessibilityLabel={`${title}. ${summary}`}
-      accessibilityHint={onPress ? 'Abre el set' : undefined}
+      accessibilityHint={onPress ? t('pack.openHint') : undefined}
       style={styles.card}
     >
       <View style={styles.cover}>

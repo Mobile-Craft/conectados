@@ -1,0 +1,91 @@
+{
+  "common": {
+    "appName": "Conectados",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "goHome": "Ir al inicio"
+  },
+  "nav": {
+    "home": "Inicio",
+    "pack": "Set",
+    "newStory": "Nueva historia",
+    "settings": "Ajustes",
+    "about": "Acerca de",
+    "components": "Componentes",
+    "notFound": "No encontrada",
+    "tabs": {
+      "discover": "Descubrir",
+      "stories": "Mis historias",
+      "profile": "Perfil"
+    }
+  },
+  "discover": {
+    "tagline": "Sets de preguntas para cada momento.",
+    "devCatalog": "Catálogo de componentes"
+  },
+  "myStories": {
+    "emptyTitle": "Aún no tienes historias",
+    "emptyDescription": "Escribe o narra una historia y la convertimos en un set para jugar.",
+    "create": "Crear historia"
+  },
+  "createStory": {
+    "title": "Nueva historia",
+    "description": "Aquí escribirás o narrarás tu historia."
+  },
+  "pack": {
+    "kicker": "Set",
+    "play": "Jugar",
+    "openHint": "Abre el set",
+    "questions_one": "{{count, number}} pregunta",
+    "questions_other": "{{count, number}} preguntas"
+  },
+  "question": {
+    "intensity": "{{label}} · {{level}}",
+    "intensitySpoken": "Intensidad: {{value}}"
+  },
+  "game": {
+    "setupTitle": "Configurar partida",
+    "start": "Empezar",
+    "skip": "Saltar",
+    "finish": "Terminar",
+    "leaveTitle": "¿Salir de la partida?",
+    "leaveMessage": "Se perderá lo que llevan jugado.",
+    "keepPlaying": "Seguir jugando",
+    "leave": "Salir",
+    "summaryTitle": "Partida terminada",
+    "summaryDescription": "Aquí verás las preguntas jugadas.",
+    "backHome": "Volver al inicio"
+  },
+  "notFound": {
+    "title": "No encontramos esa página",
+    "description": "El enlace puede estar mal escrito o ya no existir."
+  },
+  "settings": {
+    "themeHeading": "Tema",
+    "themeHelp": "Automático sigue el modo claro u oscuro de tu teléfono."
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Automático"
+  },
+  "about": {
+    "title": "Acerca de {{appName}}",
+    "body": "Sets de preguntas para jugar en persona, y los tuyos propios a partir de una historia."
+  },
+  "sample": {
+    "packs": {
+      "oldFriends": "Viejos amigos",
+      "firstDate": "Primera cita"
+    },
+    "intensity": {
+      "calm": "Tranquila",
+      "intense": "Intensa"
+    },
+    "question": {
+      "category": "Confesión",
+      "text": "¿Qué secreto nunca le contaste a nadie de esta mesa?"
+    }
+  }
+}

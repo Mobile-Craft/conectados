@@ -72,6 +72,7 @@ const config: ExpoConfig = {
       },
     ],
     'expo-secure-store',
+    'expo-localization',
   ],
   owner: 'tavarezdev',
   extra: { eas: { projectId: easProjectId } },

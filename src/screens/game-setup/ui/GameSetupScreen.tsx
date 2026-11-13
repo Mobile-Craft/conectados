@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router';
+import { useTranslation } from '@/shared/lib';
 import { Button, Screen, Text } from '@/shared/ui';
 
 /**
@@ -7,14 +8,15 @@ import { Button, Screen, Text } from '@/shared/ui';
  */
 export function GameSetupScreen({ pack }: { pack?: string }) {
   const router = useRouter();
+  const { t } = useTranslation();
   return (
     <Screen>
       <Text variant="title2" align="center" accessibilityRole="header">
-        Configurar partida
+        {t('game.setupTitle')}
       </Text>
       {pack ? <Text tone="secondary">{pack}</Text> : null}
-      <Button label="Empezar" size="lg" onPress={() => router.replace('/game/play')} />
-      <Button label="Cancelar" variant="ghost" onPress={() => router.back()} />
+      <Button label={t('game.start')} size="lg" onPress={() => router.replace('/game/play')} />
+      <Button label={t('common.cancel')} variant="ghost" onPress={() => router.back()} />
     </Screen>
   );
 }

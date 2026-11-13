@@ -1,0 +1,91 @@
+{
+  "common": {
+    "appName": "Conectados",
+    "close": "Close",
+    "cancel": "Cancel",
+    "goHome": "Go home"
+  },
+  "nav": {
+    "home": "Home",
+    "pack": "Set",
+    "newStory": "New story",
+    "settings": "Settings",
+    "about": "About",
+    "components": "Components",
+    "notFound": "Not found",
+    "tabs": {
+      "discover": "Discover",
+      "stories": "My stories",
+      "profile": "Profile"
+    }
+  },
+  "discover": {
+    "tagline": "Question sets for every moment.",
+    "devCatalog": "Component catalog"
+  },
+  "myStories": {
+    "emptyTitle": "No stories yet",
+    "emptyDescription": "Write or tell a story and we'll turn it into a set to play.",
+    "create": "Create story"
+  },
+  "createStory": {
+    "title": "New story",
+    "description": "This is where you'll write or tell your story."
+  },
+  "pack": {
+    "kicker": "Set",
+    "play": "Play",
+    "openHint": "Opens the set",
+    "questions_one": "{{count, number}} question",
+    "questions_other": "{{count, number}} questions"
+  },
+  "question": {
+    "intensity": "{{label}} · {{level}}",
+    "intensitySpoken": "Intensity: {{value}}"
+  },
+  "game": {
+    "setupTitle": "Set up the game",
+    "start": "Start",
+    "skip": "Skip",
+    "finish": "Finish",
+    "leaveTitle": "Leave the game?",
+    "leaveMessage": "You'll lose what you've played so far.",
+    "keepPlaying": "Keep playing",
+    "leave": "Leave",
+    "summaryTitle": "Game over",
+    "summaryDescription": "The questions you played will show up here.",
+    "backHome": "Back to home"
+  },
+  "notFound": {
+    "title": "We couldn't find that page",
+    "description": "The link may be mistyped or no longer exist."
+  },
+  "settings": {
+    "themeHeading": "Theme",
+    "themeHelp": "Automatic follows your phone's light or dark mode."
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "Automatic"
+  },
+  "about": {
+    "title": "About {{appName}}",
+    "body": "Question sets to play in person, plus your own made from a story."
+  },
+  "sample": {
+    "packs": {
+      "oldFriends": "Old friends",
+      "firstDate": "First date"
+    },
+    "intensity": {
+      "calm": "Calm",
+      "intense": "Intense"
+    },
+    "question": {
+      "category": "Confession",
+      "text": "What secret have you never told anyone at this table?"
+    }
+  }
+}

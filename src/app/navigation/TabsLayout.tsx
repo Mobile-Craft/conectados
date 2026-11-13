@@ -1,5 +1,6 @@
 import { Tabs } from 'expo-router/tabs';
 import type { ColorValue } from 'react-native';
+import { useTranslation } from '@/shared/lib';
 import { Icon, useTheme, type IconName } from '@/shared/ui';
 import { useTransitions } from './transitions';
 
@@ -14,6 +15,7 @@ function tabIcon(name: IconName) {
 export function TabsLayout() {
   const { colors, type } = useTheme();
   const transitions = useTransitions();
+  const { t } = useTranslation();
   return (
     <Tabs
       backBehavior="initialRoute"
@@ -29,13 +31,20 @@ export function TabsLayout() {
     >
       <Tabs.Screen
         name="index"
-        options={{ title: 'Descubrir', headerShown: false, tabBarIcon: tabIcon('compass') }}
+        options={{
+          title: t('nav.tabs.discover'),
+          headerShown: false,
+          tabBarIcon: tabIcon('compass'),
+        }}
       />
       <Tabs.Screen
         name="stories"
-        options={{ title: 'Mis historias', tabBarIcon: tabIcon('book') }}
+        options={{ title: t('nav.tabs.stories'), tabBarIcon: tabIcon('book') }}
       />
-      <Tabs.Screen name="profile" options={{ title: 'Perfil', tabBarIcon: tabIcon('user') }} />
+      <Tabs.Screen
+        name="profile"
+        options={{ title: t('nav.tabs.profile'), tabBarIcon: tabIcon('user') }}
+      />
     </Tabs>
   );
 }

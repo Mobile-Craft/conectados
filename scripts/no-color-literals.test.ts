@@ -11,6 +11,7 @@ const ESLINT_BIN = path.join(process.cwd(), 'node_modules', '.bin', 'eslint');
 
 interface LintMessage {
   ruleId: string | null;
+  message: string;
   line: number;
 }
 
@@ -20,9 +21,12 @@ async function colorErrors(code: string, filePath = 'src/shared/ui/example/Examp
     encoding: 'utf8',
   });
   const [result] = JSON.parse(run.stdout) as { messages: LintMessage[] }[];
-  return (result?.messages ?? [])
-    .filter((m) => m.ruleId === 'no-restricted-syntax')
-    .map((m) => m.line);
+  return (
+    (result?.messages ?? [])
+      // La misma regla vigila también los textos visibles; aquí solo cuentan los colores.
+      .filter((m) => m.ruleId === 'no-restricted-syntax' && m.message.startsWith('Color'))
+      .map((m) => m.line)
+  );
 }
 
 describe('regla: sin colores literales', () => {
