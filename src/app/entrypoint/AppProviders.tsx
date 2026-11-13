@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/entities/session';
+import { ThemeProvider } from '@/shared/ui';
+import { AppTheme } from './AppTheme';
 import { SplashGate } from './SplashGate';
 
 /**
@@ -8,8 +10,12 @@ import { SplashGate } from './SplashGate';
  */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <AuthProvider>
-      <SplashGate>{children}</SplashGate>
-    </AuthProvider>
+    <ThemeProvider>
+      <AppTheme>
+        <AuthProvider>
+          <SplashGate>{children}</SplashGate>
+        </AuthProvider>
+      </AppTheme>
+    </ThemeProvider>
   );
 }

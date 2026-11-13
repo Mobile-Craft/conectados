@@ -1,9 +1,10 @@
 import { Link } from 'expo-router';
-import { StyleSheet, Text } from 'react-native';
+import { Text } from 'react-native';
 import { APP_NAME } from '@/shared/config';
-import { Screen } from '@/shared/ui';
+import { createStyles, Screen } from '@/shared/ui';
 
 export function AboutScreen() {
+  const styles = useStyles();
   return (
     <Screen>
       <Text style={styles.title}>Acerca de {APP_NAME}</Text>
@@ -15,8 +16,8 @@ export function AboutScreen() {
   );
 }
 
-const styles = StyleSheet.create({
-  title: { fontSize: 24, fontWeight: '700' },
-  body: { fontSize: 16, textAlign: 'center' },
-  link: { fontSize: 16, color: '#208AEF', paddingVertical: 8 },
-});
+const useStyles = createStyles((t) => ({
+  title: { ...t.type.title2, color: t.colors.textPrimary },
+  body: { ...t.type.body, color: t.colors.textSecondary, textAlign: 'center' },
+  link: { ...t.type.label, color: t.colors.accent, paddingVertical: t.space[3] },
+}));

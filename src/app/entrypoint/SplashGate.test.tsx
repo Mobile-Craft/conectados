@@ -11,7 +11,12 @@ jest.mock('expo-splash-screen', () => ({
   hide: jest.fn(),
 }));
 
-const mockState: { status: SessionStatus } = { status: 'loading' };
+const mockState: { status: SessionStatus; fonts: [boolean, Error | null] } = {
+  status: 'loading',
+  fonts: [true, null],
+};
+jest.mock('expo-font', () => ({ useFonts: () => mockState.fonts }));
+jest.mock('@/shared/ui', () => ({ fontAssets: {} }));
 jest.mock('@/entities/session', () => ({
   useAuth: () => ({ status: mockState.status, session: null }),
 }));
@@ -28,6 +33,7 @@ describe('SplashGate', () => {
   beforeEach(() => {
     splash.hide.mockClear();
     mockState.status = 'loading';
+    mockState.fonts = [true, null];
   });
 
   it('retiene la splash nativa desde que carga el módulo', () => {
@@ -51,4 +57,19 @@ describe('SplashGate', () => {
       expect(splash.hide).toHaveBeenCalledTimes(1);
     },
   );
+
+  it('espera a las fuentes aunque la sesión ya esté resuelta', async () => {
+    mockState.status = 'anonymous';
+    mockState.fonts = [false, null];
+    await render(app());
+    expect(screen.queryByText('Inicio')).toBeNull();
+    expect(splash.hide).not.toHaveBeenCalled();
+  });
+
+  it('si una fuente falla, sigue con la del sistema en vez de bloquear', async () => {
+    mockState.status = 'anonymous';
+    mockState.fonts = [false, new Error('sin red')];
+    await render(app());
+    expect(screen.getByText('Inicio')).toBeTruthy();
+  });
 });

@@ -76,9 +76,20 @@ Los perfiles de `eas.json` ya fijan su variante.
 | --------------------------------- | ------------------------------------------------ |
 | `npm start`                       | Servidor de desarrollo para el development build |
 | `npm test`                        | Pruebas unitarias (Jest con `jest-expo`)         |
+| `npm run check:contrast`          | Informe de contraste AA de ambos temas           |
 | `npm run typecheck`               | TypeScript en modo estricto                      |
 | `npm run lint`                    | ESLint (incluida la regla de capas) y Steiger    |
 | `npm run format` / `format:check` | Prettier                                         |
+
+## Sistema de diseño
+
+Los tokens viven en `src/shared/ui/theme/`, en tres capas (plan 3.1):
+
+- **Primitivos** (`primitives.ts`): paleta, escala tipográfica (Fraunces para la pregunta, Inter para la interfaz), espaciado en base 4, radios y duraciones. Es el único archivo con colores literales.
+- **Semánticos** (`semantic.ts`): `bg`, `surface`, `textPrimary`, `accent`… Claro y oscuro se diseñan por separado.
+- **De componente** (`components.ts`): `questionCard`, `button`, `chip`… Solo leen semánticos.
+
+Los estilos se escriben con `createStyles((t) => ({ … }))` de `@/shared/ui`, que crea un `StyleSheet` por tema. Una regla de ESLint prohíbe colores literales fuera de los primitivos, y `npm test` comprueba que cada par texto/fondo de ambos temas cumpla 4.5:1 (`npm run check:contrast` da el informe).
 
 ## Arquitectura
 

@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { StyleSheet, View, type ViewStyle } from 'react-native';
+import { View, type ViewStyle } from 'react-native';
+import { createStyles } from '../theme';
 
 type ScreenProps = {
   children: ReactNode;
@@ -8,12 +9,13 @@ type ScreenProps = {
   style?: ViewStyle;
 };
 
-/** Contenedor base de una pantalla. Genérico: no conoce el dominio. */
+/** Contenedor base de una pantalla, con el fondo del tema. Genérico: no conoce el dominio. */
 export function Screen({ children, centered = true, style }: ScreenProps) {
+  const styles = useStyles();
   return <View style={[styles.base, centered && styles.centered, style]}>{children}</View>;
 }
 
-const styles = StyleSheet.create({
-  base: { flex: 1, padding: 24, gap: 12 },
+const useStyles = createStyles((t) => ({
+  base: { flex: 1, padding: t.space[6], gap: t.space[3], backgroundColor: t.colors.bg },
   centered: { alignItems: 'center', justifyContent: 'center' },
-});
+}));

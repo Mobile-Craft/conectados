@@ -10,6 +10,34 @@ const SLICED = ['screens', 'widgets', 'features', 'entities'];
 
 const below = (layer) => LAYERS.slice(LAYERS.indexOf(layer) + 1);
 
+// Colores literales (plan 3.1, HU-1.1): los componentes solo usan tokens del tema. Los valores
+// crudos viven en los primitivos, el único archivo exento.
+const COLOR_PRIMITIVES = 'src/shared/ui/theme/primitives.ts';
+const COLOR_PROPS =
+  '/^(?:color|backgroundColor|border(?:Top|Right|Bottom|Left|Start|End|Block|Inline)?Color|shadowColor|textShadowColor|textDecorationColor|tintColor|overlayColor|placeholderTextColor|selectionColor|cursorColor|underlineColorAndroid)$/';
+const NO_COLOR_LITERALS = [
+  {
+    selector: 'Literal[value=/^#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/]',
+    message: 'Color literal: usa un token del tema (useTheme / createStyles).',
+  },
+  {
+    selector: 'Literal[value=/^\\s*(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\\(/i]',
+    message: 'Color literal: usa un token del tema (useTheme / createStyles).',
+  },
+  {
+    selector: 'TemplateElement[value.raw=/#[0-9a-fA-F]{3,8}\\b|(?:rgba?|hsla?)\\(/i]',
+    message: 'Color literal en plantilla: usa un token del tema.',
+  },
+  {
+    selector: `Property[key.name=${COLOR_PROPS}] > Literal[value=/^(?!transparent$)[a-zA-Z]+$/]`,
+    message: 'Color con nombre: usa un token del tema.',
+  },
+  {
+    selector: `JSXAttribute[name.name=${COLOR_PROPS}] > Literal`,
+    message: 'Color literal en una prop: usa un token del tema.',
+  },
+];
+
 module.exports = defineConfig([
   globalIgnores(['dist/*', '.expo/*', 'ios/*', 'android/*', 'node_modules/*']),
   expoConfig,
@@ -89,6 +117,12 @@ module.exports = defineConfig([
         },
       ],
     },
+  },
+  {
+    files: ['app/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
+    // Las pruebas usan colores de referencia (WCAG); la regla es para el código de la app.
+    ignores: [COLOR_PRIMITIVES, '**/*.test.{ts,tsx}'],
+    rules: { 'no-restricted-syntax': ['error', ...NO_COLOR_LITERALS] },
   },
   prettierConfig,
 ]);
