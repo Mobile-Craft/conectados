@@ -11,10 +11,14 @@ jest.mock('expo-splash-screen', () => ({
   hide: jest.fn(),
 }));
 
-const mockState: { status: SessionStatus; fonts: [boolean, Error | null] } = {
+const mockState: { status: SessionStatus; fonts: [boolean, Error | null]; hydrated: boolean } = {
   status: 'loading',
   fonts: [true, null],
+  hydrated: true,
 };
+jest.mock('@/features/theme-switch', () => ({
+  useThemePreferenceHydrated: () => mockState.hydrated,
+}));
 jest.mock('expo-font', () => ({ useFonts: () => mockState.fonts }));
 jest.mock('@/shared/ui', () => ({ fontAssets: {} }));
 jest.mock('@/entities/session', () => ({
@@ -34,6 +38,7 @@ describe('SplashGate', () => {
     splash.hide.mockClear();
     mockState.status = 'loading';
     mockState.fonts = [true, null];
+    mockState.hydrated = true;
   });
 
   it('retiene la splash nativa desde que carga el módulo', () => {
@@ -71,5 +76,13 @@ describe('SplashGate', () => {
     mockState.fonts = [false, new Error('sin red')];
     await render(app());
     expect(screen.getByText('Inicio')).toBeTruthy();
+  });
+
+  it('espera a leer la preferencia de tema para no mostrar un tema y luego cambiarlo', async () => {
+    mockState.status = 'anonymous';
+    mockState.hydrated = false;
+    await render(app());
+    expect(screen.queryByText('Inicio')).toBeNull();
+    expect(splash.hide).not.toHaveBeenCalled();
   });
 });

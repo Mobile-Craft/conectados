@@ -1,21 +1,21 @@
 import type { ReactNode } from 'react';
 import { AuthProvider } from '@/entities/session';
-import { ThemeProvider } from '@/shared/ui';
 import { AppTheme } from './AppTheme';
 import { SplashGate } from './SplashGate';
+import { ThemeRoot } from './ThemeRoot';
 
 /**
- * Punto único donde se envuelven los proveedores globales (tema, i18n, sesión, datos).
- * Las historias siguientes añaden aquí los que faltan.
+ * Punto único donde se envuelven los proveedores globales (sesión, tema, i18n, datos).
+ * La sesión va primero: el tema se sincroniza con el perfil de quien la tiene.
  */
 export function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <ThemeProvider>
-      <AppTheme>
-        <AuthProvider>
+    <AuthProvider>
+      <ThemeRoot>
+        <AppTheme>
           <SplashGate>{children}</SplashGate>
-        </AuthProvider>
-      </AppTheme>
-    </ThemeProvider>
+        </AppTheme>
+      </ThemeRoot>
+    </AuthProvider>
   );
 }

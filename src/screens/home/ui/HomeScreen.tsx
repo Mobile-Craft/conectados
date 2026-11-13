@@ -9,6 +9,9 @@ export function HomeScreen() {
     <Screen>
       <Text style={styles.title}>{APP_NAME}</Text>
       <Text style={styles.subtitle}>Bienvenido a la aplicación</Text>
+      <Link href="/settings" style={styles.link}>
+        Ajustes
+      </Link>
       <Link href="/about" style={styles.link}>
         Acerca de
       </Link>

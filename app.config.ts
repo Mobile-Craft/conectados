@@ -46,9 +46,13 @@ const config: ExpoConfig = {
     [
       'expo-splash-screen',
       {
-        backgroundColor: '#208AEF',
+        // El fondo de la splash es el `bg` de cada tema (sand.50 y ink.950 de los primitivos):
+        // al quitarla no hay salto de color. La config no puede importar src/, así que una
+        // prueba (app-config.test.ts) comprueba que coincidan.
+        backgroundColor: '#FAF7F2',
         image: './assets/images/splash-icon.png',
         imageWidth: 76,
+        dark: { backgroundColor: '#100F1B' },
       },
     ],
     'expo-secure-store',

@@ -10,15 +10,35 @@ import { themes, type ColorScheme, type Theme } from './theme';
 
 type NamedStyles<T> = { [K in keyof T]: ViewStyle | TextStyle | ImageStyle };
 
+/** Lo que elige el usuario: un tema fijo o seguir al sistema (HU-1.2). */
+export type ThemePreference = ColorScheme | 'system';
+
+export const THEME_PREFERENCES: readonly ThemePreference[] = ['light', 'dark', 'system'];
+
 const ThemeContext = createContext<Theme | null>(null);
 
+/** El tema que toca mostrar según la preferencia y lo que dice el sistema ahora mismo. */
+export function resolveScheme(
+  preference: ThemePreference,
+  system: string | null | undefined,
+): ColorScheme {
+  if (preference !== 'system') return preference;
+  return system === 'dark' ? 'dark' : 'light';
+}
+
 /**
- * Da el tema activo a toda la app. Sin `scheme`, sigue al sistema y cambia en caliente.
- * La preferencia del usuario (claro, oscuro o sistema) llega con la HU-1.2.
+ * Da el tema activo a toda la app. Con `preference="system"` (por defecto) sigue al sistema y
+ * cambia en caliente, sin reabrir la app; con `light` o `dark` lo fija.
  */
-export function ThemeProvider({ scheme, children }: { scheme?: ColorScheme; children: ReactNode }) {
+export function ThemeProvider({
+  preference = 'system',
+  children,
+}: {
+  preference?: ThemePreference;
+  children: ReactNode;
+}) {
   const system = useColorScheme();
-  const active: ColorScheme = scheme ?? (system === 'dark' ? 'dark' : 'light');
+  const active = resolveScheme(preference, system);
   return <ThemeContext.Provider value={themes[active]}>{children}</ThemeContext.Provider>;
 }
 

@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { render, screen } from '@testing-library/react-native';
 import { Text, useColorScheme } from 'react-native';
-import { createStyles, ThemeProvider, useTheme } from './ThemeProvider';
+import { createStyles, resolveScheme, ThemeProvider, useTheme } from './ThemeProvider';
 import { themes } from './theme';
 
 jest.mock('react-native/Libraries/Utilities/useColorScheme', () => ({
@@ -19,6 +19,17 @@ function Probe() {
   seen.push(styles);
   return <Text style={styles.title}>{theme.scheme}</Text>;
 }
+
+describe('resolveScheme', () => {
+  it('un tema fijo manda; "system" sigue al sistema y, si no lo sabe, usa claro', () => {
+    expect(resolveScheme('dark', 'light')).toBe('dark');
+    expect(resolveScheme('light', 'dark')).toBe('light');
+    expect(resolveScheme('system', 'dark')).toBe('dark');
+    expect(resolveScheme('system', 'light')).toBe('light');
+    expect(resolveScheme('system', null)).toBe('light');
+    expect(resolveScheme('system', 'unspecified')).toBe('light');
+  });
+});
 
 describe('ThemeProvider', () => {
   it('sigue al sistema cuando no se fija un tema', async () => {
@@ -45,10 +56,23 @@ describe('ThemeProvider', () => {
     expect(screen.getByText('dark')).toHaveStyle({ color: themes.dark.colors.textPrimary });
   });
 
+  it('con preferencia "system" explícita también cambia en caliente', async () => {
+    systemScheme.mockReturnValue('light');
+    const tree = () => (
+      <ThemeProvider preference="system">
+        <Probe />
+      </ThemeProvider>
+    );
+    const { rerender } = await render(tree());
+    systemScheme.mockReturnValue('dark');
+    await rerender(tree());
+    expect(screen.getByText('dark')).toBeTruthy();
+  });
+
   it('un tema fijado manda sobre el del sistema', async () => {
     systemScheme.mockReturnValue('dark');
     await render(
-      <ThemeProvider scheme="light">
+      <ThemeProvider preference="light">
         <Probe />
       </ThemeProvider>,
     );
@@ -58,7 +82,7 @@ describe('ThemeProvider', () => {
   it('createStyles crea la hoja una vez por tema y la reutiliza', async () => {
     seen.length = 0;
     const tree = (scheme: 'light' | 'dark') => (
-      <ThemeProvider scheme={scheme}>
+      <ThemeProvider preference={scheme}>
         <Probe />
       </ThemeProvider>
     );
