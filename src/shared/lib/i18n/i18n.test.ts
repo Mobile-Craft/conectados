@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from '@jest/globals';
-import { detectLanguage, FALLBACK_LANGUAGE } from './detect';
+import { detectLanguage, FALLBACK_LANGUAGE, isLanguagePreference, resolveLanguage } from './detect';
 import { formatDate, formatNumber, formatRelative } from './format';
 import { i18n } from './i18n';
 import en from './locales/en.json';
@@ -23,6 +23,25 @@ describe('detectLanguage', () => {
     expect(detectLanguage([{ languageCode: 'fr' }, { languageCode: 'de' }])).toBe('en');
     expect(detectLanguage([])).toBe('en');
     expect(detectLanguage([{ languageCode: null }])).toBe('en');
+  });
+});
+
+describe('resolveLanguage', () => {
+  it('con "Automático" usa el idioma del teléfono', () => {
+    expect(resolveLanguage('system', [{ languageCode: 'es' }])).toBe('es');
+    expect(resolveLanguage('system', [{ languageCode: 'fr' }])).toBe('en');
+  });
+
+  it('un idioma elegido manda sobre el del teléfono', () => {
+    expect(resolveLanguage('en', [{ languageCode: 'es' }])).toBe('en');
+    expect(resolveLanguage('es', [{ languageCode: 'en' }])).toBe('es');
+  });
+
+  it('solo acepta preferencias conocidas', () => {
+    expect(isLanguagePreference('system')).toBe(true);
+    expect(isLanguagePreference('en')).toBe(true);
+    expect(isLanguagePreference('fr')).toBe(false);
+    expect(isLanguagePreference(null)).toBe(false);
   });
 });
 

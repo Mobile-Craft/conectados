@@ -62,13 +62,21 @@
   },
   "settings": {
     "themeHeading": "Tema",
-    "themeHelp": "Automático sigue el modo claro u oscuro de tu teléfono."
+    "themeHelp": "Automático sigue el modo claro u oscuro de tu teléfono.",
+    "languageHeading": "Idioma",
+    "languageHelp": "Automático usa el idioma de tu teléfono. Las preguntas también cambian de idioma."
   },
   "theme": {
     "label": "Tema",
     "light": "Claro",
     "dark": "Oscuro",
     "system": "Automático"
+  },
+  "language": {
+    "label": "Idioma",
+    "system": "Automático",
+    "es": "Español",
+    "en": "English"
   },
   "about": {
     "title": "Acerca de {{appName}}",

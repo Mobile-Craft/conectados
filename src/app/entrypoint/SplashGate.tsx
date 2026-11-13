@@ -2,6 +2,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, type ReactNode } from 'react';
 import { useAuth } from '@/entities/session';
+import { useLanguagePreferenceHydrated } from '@/features/language-switch';
 import { useThemePreferenceHydrated } from '@/features/theme-switch';
 import { fontAssets } from '@/shared/ui';
 
@@ -11,15 +12,20 @@ void SplashScreen.preventAutoHideAsync();
 SplashScreen.setOptions({ fade: true, duration: 200 });
 
 /**
- * No muestra la app mientras la sesión está en `loading`, faltan las fuentes o aún no se leyó la
- * preferencia de tema (así nunca asoma un tema y luego cambia); al resolverse todo, quita la
- * splash. Si una fuente falla, sigue con la del sistema antes que bloquear.
+ * No muestra la app mientras la sesión está en `loading`, faltan las fuentes o aún no se leyeron
+ * las preferencias de tema e idioma (así nunca asoma un tema o un idioma y luego cambia); al
+ * resolverse todo, quita la splash. Si una fuente falla, sigue con la del sistema antes que bloquear.
  */
 export function SplashGate({ children }: { children: ReactNode }) {
   const { status } = useAuth();
   const themeHydrated = useThemePreferenceHydrated();
+  const languageHydrated = useLanguagePreferenceHydrated();
   const [fontsLoaded, fontError] = useFonts(fontAssets);
-  const ready = status !== 'loading' && themeHydrated && (fontsLoaded || fontError !== null);
+  const ready =
+    status !== 'loading' &&
+    themeHydrated &&
+    languageHydrated &&
+    (fontsLoaded || fontError !== null);
 
   useEffect(() => {
     if (ready) SplashScreen.hide();

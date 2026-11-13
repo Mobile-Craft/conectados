@@ -22,3 +22,19 @@ export function detectLanguage(
   }
   return FALLBACK_LANGUAGE;
 }
+
+/** Lo que el usuario elige en Ajustes: seguir al teléfono o fijar un idioma (HU-2.2). */
+export const LANGUAGE_PREFERENCES = ['system', ...SUPPORTED_LANGUAGES] as const;
+export type LanguagePreference = (typeof LANGUAGE_PREFERENCES)[number];
+
+export function isLanguagePreference(value: unknown): value is LanguagePreference {
+  return LANGUAGE_PREFERENCES.includes(value as LanguagePreference);
+}
+
+/** El idioma que usa la app: el elegido, o con "Automático" el del teléfono. */
+export function resolveLanguage(
+  preference: LanguagePreference,
+  deviceLocales: readonly { languageCode?: string | null }[],
+): Language {
+  return preference === 'system' ? detectLanguage(deviceLocales) : preference;
+}

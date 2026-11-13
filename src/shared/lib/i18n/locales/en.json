@@ -62,13 +62,21 @@
   },
   "settings": {
     "themeHeading": "Theme",
-    "themeHelp": "Automatic follows your phone's light or dark mode."
+    "themeHelp": "Automatic follows your phone's light or dark mode.",
+    "languageHeading": "Language",
+    "languageHelp": "Automatic uses your phone's language. Questions switch language too."
   },
   "theme": {
     "label": "Theme",
     "light": "Light",
     "dark": "Dark",
     "system": "Automatic"
+  },
+  "language": {
+    "label": "Language",
+    "system": "Automatic",
+    "es": "Español",
+    "en": "English"
   },
   "about": {
     "title": "About {{appName}}",
