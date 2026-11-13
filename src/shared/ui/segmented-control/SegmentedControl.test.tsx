@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import { StyleSheet } from 'react-native';
 import { ThemeProvider } from '../theme';
 import { themes } from '../theme/theme';
-import { SegmentedControl } from './SegmentedControl';
+import { fitsInRow, SegmentedControl } from './SegmentedControl';
 
 const options = [
   { value: 'a', label: 'Uno' },
@@ -44,5 +44,17 @@ describe('SegmentedControl', () => {
     const style = StyleSheet.flatten(screen.getByRole('radio', { name: 'Uno' }).props.style);
     expect(style.minHeight).toBeGreaterThanOrEqual(44);
     expect(screen.getByText('Dos')).toHaveStyle({ color: themes.light.components.chip.text });
+  });
+});
+
+describe('fitsInRow', () => {
+  const labels = ['Claro', 'Oscuro', 'Automático'];
+
+  it('en fila con el texto normal de un teléfono', () => {
+    expect(fitsInRow(labels, 390, 1)).toBe(true);
+  });
+
+  it('apila con el texto del sistema al máximo, para no partir palabras', () => {
+    expect(fitsInRow(labels, 390, 3.1)).toBe(false);
   });
 });

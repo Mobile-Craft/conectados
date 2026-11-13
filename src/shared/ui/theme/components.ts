@@ -1,46 +1,62 @@
+import { toRgba } from './color';
 import type { SemanticColors } from './semantic';
 
 // Capa 3 · De componente (plan 3.1). Cada componente lee sus colores de aquí, y estos salen de
-// la capa semántica: cambiar un tema nunca obliga a tocar un componente.
+// la capa semántica: cambiar un tema nunca obliga a tocar un componente. Los translúcidos ya
+// vienen como rgba() listos para un estilo.
 
 export function componentColors(c: SemanticColors) {
+  const glass = toRgba(c.glass);
+  const glassStrong = toRgba(c.glassStrong);
+  const glassBorder = toRgba(c.glassBorder);
+
   return {
+    glass: { bg: glass, bgStrong: glassStrong, border: glassBorder },
+    aurora: { stops: c.aurora, opacity: c.auroraOpacity },
     questionCard: {
-      bg: c.surfaceRaised,
+      bg: glass,
+      border: glassBorder,
       text: c.textPrimary,
       meta: c.textSecondary,
-      border: c.border,
     },
     button: {
-      primary: { bg: c.accent, bgPressed: c.accentPressed, text: c.accentContrast },
-      secondary: {
-        bg: c.surface,
-        bgPressed: c.surfaceSunken,
-        text: c.textPrimary,
-        border: c.borderStrong,
+      primary: {
+        gradient: c.accentGradient,
+        gradientPressed: c.accentGradientPressed,
+        text: c.accentContrast,
+        glow: c.aurora[1],
       },
-      ghost: { bg: c.bg, bgPressed: c.surfaceSunken, text: c.accent },
-      danger: { bg: c.danger, bgPressed: c.danger, text: c.surface },
+      secondary: { bg: glass, bgPressed: glassStrong, text: c.textPrimary, border: glassBorder },
+      ghost: { bg: 'transparent', bgPressed: glass, text: c.accent },
+      danger: { bg: c.danger, bgPressed: c.danger, text: c.dangerContrast },
     },
     chip: {
-      bg: c.surface,
-      text: c.textSecondary,
-      border: c.border,
-      selectedBg: c.accentSubtle,
-      selectedText: c.textPrimary,
-      selectedBorder: c.accent,
+      bg: glass,
+      text: c.textPrimary,
+      border: glassBorder,
+      bgPressed: glassStrong,
+      selectedGradient: c.accentGradient,
+      selectedText: c.accentContrast,
     },
     chipIntensity: c.intensity,
+    avatar: { gradient: c.accentGradient, text: c.accentContrast, ring: glassBorder },
     input: {
-      bg: c.surface,
+      bg: glass,
       text: c.textPrimary,
       placeholder: c.textMuted,
-      border: c.borderStrong,
+      border: glassBorder,
       focusBorder: c.accent,
       errorText: c.danger,
     },
+    sheet: {
+      bg: glassStrong,
+      fallbackBg: c.surfaceRaised,
+      border: glassBorder,
+      handle: c.borderStrong,
+      overlay: toRgba(c.overlay),
+    },
     toast: { bg: c.textPrimary, text: c.bg },
-    skeleton: { bg: c.surfaceSunken, highlight: c.border },
+    skeleton: { bg: glassStrong },
   };
 }
 

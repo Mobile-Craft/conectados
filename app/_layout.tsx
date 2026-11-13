@@ -8,6 +8,7 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ title: 'Conectados' }} />
         <Stack.Screen name="about" options={{ title: 'Acerca de' }} />
         <Stack.Screen name="settings" options={{ title: 'Ajustes' }} />
+        <Stack.Screen name="dev/components" options={{ title: 'Componentes' }} />
       </Stack>
     </AppProviders>
   );

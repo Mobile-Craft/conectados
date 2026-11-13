@@ -15,6 +15,11 @@ export function HomeScreen() {
       <Link href="/about" style={styles.link}>
         Acerca de
       </Link>
+      {__DEV__ ? (
+        <Link href="/dev/components" style={styles.link}>
+          Catálogo de componentes
+        </Link>
+      ) : null}
     </Screen>
   );
 }

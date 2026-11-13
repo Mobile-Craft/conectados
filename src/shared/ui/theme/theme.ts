@@ -1,5 +1,15 @@
 import { componentColors, type ComponentColors } from './components';
-import { duration, easing, minTouchTarget, radius, space, typeScale } from './primitives';
+import {
+  ambientDuration,
+  blur,
+  duration,
+  easing,
+  maxFontScale,
+  minTouchTarget,
+  radius,
+  space,
+  typeScale,
+} from './primitives';
 import { darkColors, lightColors, type SemanticColors } from './semantic';
 
 export type ColorScheme = 'light' | 'dark';
@@ -10,9 +20,12 @@ export interface Theme {
   colors: SemanticColors;
   components: ComponentColors;
   type: typeof typeScale;
+  maxFontScale: typeof maxFontScale;
   space: typeof space;
   radius: typeof radius;
+  blur: typeof blur;
   duration: typeof duration;
+  ambientDuration: number;
   easing: typeof easing;
   minTouchTarget: number;
 }
@@ -23,9 +36,12 @@ function createTheme(scheme: ColorScheme, colors: SemanticColors): Theme {
     colors,
     components: componentColors(colors),
     type: typeScale,
+    maxFontScale,
     space,
     radius,
+    blur,
     duration,
+    ambientDuration,
     easing,
     minTouchTarget,
   };

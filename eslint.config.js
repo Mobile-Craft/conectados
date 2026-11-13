@@ -11,8 +11,8 @@ const SLICED = ['screens', 'widgets', 'features', 'entities'];
 const below = (layer) => LAYERS.slice(LAYERS.indexOf(layer) + 1);
 
 // Colores literales (plan 3.1, HU-1.1): los componentes solo usan tokens del tema. Los valores
-// crudos viven en los primitivos, el único archivo exento.
-const COLOR_PRIMITIVES = 'src/shared/ui/theme/primitives.ts';
+// crudos viven en los primitivos; color.ts solo hace la aritmética (mezclar, escribir rgba()).
+const COLOR_PRIMITIVES = ['src/shared/ui/theme/primitives.ts', 'src/shared/ui/theme/color.ts'];
 const COLOR_PROPS =
   '/^(?:color|backgroundColor|border(?:Top|Right|Bottom|Left|Start|End|Block|Inline)?Color|shadowColor|textShadowColor|textDecorationColor|tintColor|overlayColor|placeholderTextColor|selectionColor|cursorColor|underlineColorAndroid)$/';
 const NO_COLOR_LITERALS = [
@@ -121,7 +121,7 @@ module.exports = defineConfig([
   {
     files: ['app/**/*.{ts,tsx}', 'src/**/*.{ts,tsx}'],
     // Las pruebas usan colores de referencia (WCAG); la regla es para el código de la app.
-    ignores: [COLOR_PRIMITIVES, '**/*.test.{ts,tsx}'],
+    ignores: [...COLOR_PRIMITIVES, '**/*.test.{ts,tsx}'],
     rules: { 'no-restricted-syntax': ['error', ...NO_COLOR_LITERALS] },
   },
   prettierConfig,
