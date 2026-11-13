@@ -41,6 +41,23 @@ npm start               # expo start --dev-client
 
 Abre la app **Conectados (Dev)** en el teléfono. Se conecta al servidor (misma red Wi‑Fi, o escaneando el QR). Los cambios de JavaScript se recargan al momento. Solo hay que generar otro build cuando cambian dependencias nativas o `app.config.ts`.
 
+## Supabase
+
+El backend es Supabase (proyecto `conectados-dev`, organización `conectados`). El CLI se usa siempre por `npm run sb -- <comando>`: lee el token de la cuenta de Conectados del llavero de macOS y no toca la sesión global del CLI.
+
+Una vez por equipo:
+
+```bash
+# En Terminal (no en un chat): token de supabase.com/dashboard/account/tokens
+security add-generic-password -U -a conectados -s supabase-access-token -w '<token>'
+npm run sb -- link --project-ref bevmpvgtghwwtivdpmyk
+```
+
+- **Migraciones** en `supabase/migrations/`. Una migración publicada no se edita: los cambios van en una nueva (`npm run sb -- migration new <nombre>`).
+- **Reconstruir dev desde cero:** `npm run sb -- db reset --linked` (borra los datos de dev y aplica todas las migraciones). Pide la contraseña de la base; está en el llavero, como `supabase-db-conectados-dev`.
+- **Tipos:** `npm run db:types` regenera `src/shared/api/supabase/database.types.ts` desde el esquema. Ejecútalo tras cada migración.
+- **Claves:** la app usa la URL y la clave _publishable_ (`EXPO_PUBLIC_SUPABASE_*` en `.env` y en las variables de EAS). Las claves `secret` y `service_role` nunca van al cliente ni al repositorio.
+
 ## Variantes
 
 `APP_VARIANT` controla la identidad de la app, para poder tener instaladas a la vez la de desarrollo y la publicada:

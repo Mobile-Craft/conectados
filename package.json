@@ -38,7 +38,9 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings 0 && steiger ./src",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "sb": "./scripts/supabase.sh",
+    "db:types": "./scripts/supabase.sh gen types typescript --linked --schema public > src/shared/api/supabase/database.types.ts && prettier --write src/shared/api/supabase/database.types.ts"
   },
   "private": true,
   "overrides": {
